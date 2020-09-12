@@ -3,9 +3,9 @@ This demo is coupled with my C++ sandbox, https://github.com/panchul/sb_cpp
 creates a server from the sample for daytime client/server.
 The server listens on port 13.
  
-To build the image:
+To build the image (`--no-cache` and `--pull` are useful for dev):
 
-    $ docker build -t mydaytime .
+    $ docker build --no-cache -t mydaytime .
     ...
         
     $ docker images
@@ -13,9 +13,9 @@ To build the image:
     mydatetime          latest              53911b53e21b        About a minute ago   386MB
 
 To run, map port 13, for example to 8080 (because on Mac some proxy or firewall settings seem to
-screw up the low port numbers):
+screw up the low port numbers), option `-d` is to run in deamon mode(detouch from the terminal):
 
-    $ docker run -p 8080:13 --name mydaytime1 mydaytime 
+    $ docker run -d -p 8080:13 --name mydaytime1 mydaytime 
       
 Now in another terminal:
       
@@ -58,5 +58,3 @@ To remove it from containers:
     $ docker ps -a        
     CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
     $
-    
-    

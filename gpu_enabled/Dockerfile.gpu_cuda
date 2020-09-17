@@ -1,0 +1,7 @@
+#FROM tensorflow/tensorflow:1.10.0-gpu
+FROM tensorflow/tensorflow:2.3.0-gpu
+COPY main_gpu.py /app/main.py
+RUN pip install --upgrade pip
+RUN pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+
+ENTRYPOINT ["python", "/app/main.py"]

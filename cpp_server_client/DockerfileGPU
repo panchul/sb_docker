@@ -1,0 +1,38 @@
+# run as  
+# docker run -it --runtime=nvidia alek8106/mycudatest:20200916 
+#
+ 
+#FROM centos
+#RUN yum update -y
+
+#FROM ubuntu:trusty
+#FROM ubuntu:xenial
+FROM tensorflow/tensorflow:1.10.0-gpu
+
+RUN echo 'The container for a daytime server from https://github.com/panchul/sb_cpp'
+
+RUN apt-get update
+RUN apt-get -y install git
+#RUN apt-get -y install gcc
+RUN apt-get -y install g++
+RUN apt-get -y install nvidia-cuda-toolkit
+
+RUN git clone https://github.com/panchul/sb_cpp
+#WORKDIR "/sb_cpp" 
+RUN cd sb_cpp/cuda && \
+	nvcc -o /bin/vectorAdd_cuda_sleep -DDO_CUDA vectorAdd_sleep.cu
+
+#    g++ -o /bin/server.out daytimeserver.cpp  -lresolv -lpthread
+
+EXPOSE 5001
+
+#CMD ["executable","param1","param2"]
+#CMD /bin/server.out
+## or, using ENTRYPOINT, you can do something like this:
+##ENTRYPOINT ["/bin/ping","-c","3"]
+##CMD ["localhost"]
+
+#ENTRYPOINT ["/bin/server.out"]
+ENTRYPOINT ["/bin/vectorAdd_cuda_sleep"]
+
+CMD [""]

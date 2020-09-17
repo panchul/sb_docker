@@ -1,0 +1,34 @@
+#
+# This is from NVidia site, might be useful for debugging.
+#
+
+#
+# then run it as
+# kubectl exec -it nvidia-deployment-68894ff756-5kgfk -- nvidia-smi
+#
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nvidia-deployment
+spec:
+  #replicas: 32
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nvidia-gpu-deploy
+  template:
+    metadata:
+      labels:
+        name: nvidia-gpu-deploy
+
+    spec:
+      containers:
+      - name: cuda-container
+        image: ubuntu
+        command: ["sleep"]
+        args: ["100000"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+

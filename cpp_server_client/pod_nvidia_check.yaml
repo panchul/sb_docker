@@ -1,0 +1,44 @@
+# With Kubernetes:
+#
+# $ k create -f dopod_nvidia_check.yaml
+# $ k describe pod my-podnvidiacheck
+
+# Or with only Docker:
+#
+# $ docker run -it --runtime=nvidia alek8106/mycudatest:20200916
+# $ docker exec -it ff31f97ee4b1 /bin/bash
+#root@ff31f97ee4b1:/notebooks# nvidia-smi
+#Thu Sep 17 00:16:30 2020
+#+-----------------------------------------------------------------------------+
+#| NVIDIA-SMI 418.87.01    Driver Version: 418.87.01    CUDA Version: 11.0     |
+#|-------------------------------+----------------------+----------------------+
+#| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+#| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+#|===============================+======================+======================|
+#|   0  Tesla K80           On   | 0000DE85:00:00.0 Off |                    0 |
+#| N/A   64C    P0    57W / 149W |     67MiB / 11441MiB |      0%      Default |
+#+-------------------------------+----------------------+----------------------+
+#
+#+-----------------------------------------------------------------------------+
+#| Processes:                                                       GPU Memory |
+#|  GPU       PID   Type   Process name                             Usage      |
+#|=============================================================================|
+#+-----------------------------------------------------------------------------+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-podnvidiacheck
+  labels:
+    app: my-podnvidiacheck
+spec:
+  containers:
+  - name: my-podnvidiacheck
+    #image: nvidia/cuda
+    image: alek8106/mycudatest:20200916
+    ports:
+    - containerPort: 5001
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+
